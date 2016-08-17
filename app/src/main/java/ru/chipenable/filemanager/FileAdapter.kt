@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import java.io.File
 import java.util.zip.Inflater
@@ -15,9 +16,9 @@ import java.util.zip.Inflater
  */
 class FileAdapter: BaseAdapter {
 
-    lateinit var list: List<File>
-    var inflater: LayoutInflater
-    var layoutRes: Int
+    private lateinit var list: List<File>
+    private var inflater: LayoutInflater
+    private var layoutRes: Int
 
     public constructor(context: Context, layoutRes: Int): super(){
         this.list = listOf()
@@ -34,9 +35,24 @@ class FileAdapter: BaseAdapter {
             view = convertView
         }
 
-        var file: File = list.get(index)
+        var file: File = list[index]
         var name: TextView = view.findViewById(R.id.file_name) as TextView
-        name.setText(file.name)
+        name.text = file.name
+        var image: ImageView = view.findViewById(R.id.file_icon) as ImageView
+        var imageRes: Int
+        if (file.isDirectory){
+            if (file.canRead()){
+                imageRes = R.drawable.ic_folder
+            }
+            else {
+                imageRes = R.drawable.ic_disable_folder
+            }
+        }
+        else {
+            imageRes = R.drawable.ic_file
+        }
+
+        image.setImageResource(imageRes)
 
         return view
     }
@@ -53,7 +69,7 @@ class FileAdapter: BaseAdapter {
         return list.size
     }
 
-    public fun setAdapterList(list: List<File>){
+    fun setAdapterList(list: List<File>){
         this.list = list
         notifyDataSetChanged()
     }

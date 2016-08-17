@@ -7,5 +7,5 @@ import java.io.File
  */
 interface IMainView {
     fun showLoading(enable: Boolean)
-    fun setData(list: List<File>)
+    fun setData(list: List<File>?)
 }

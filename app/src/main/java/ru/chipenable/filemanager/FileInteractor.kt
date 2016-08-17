@@ -12,13 +12,34 @@ import java.util.*
  */
 class FileInteractor: IFileInteractor {
 
-    val TAG: String = javaClass.name
-    lateinit var curFolderContent: List<File>
+    private val TAG: String = javaClass.name
+    private lateinit var curFile: File
+    private lateinit var curFolderContent: List<File>
 
-    override fun getFolderContent(path: String?): Observable<List<File>> {
-        var file: File = File(path)
-        curFolderContent = file.listFiles().asList()
+    override fun getFolderContent(path: String?): Observable<List<File>?> {
+        curFile = File(path)
+        curFolderContent = curFile.listFiles().asList()
         return Observable.just(curFolderContent)
                          .subscribeOn(Schedulers.io())
+    }
+
+    override fun getFolderContent(item: Int): Observable<List<File>?> {
+        var result: List<File>? = null
+        val file: File = curFolderContent[item]
+        if (file.isDirectory && file.canRead()) {
+            curFile = file
+            curFolderContent = file.listFiles().asList()
+            result = curFolderContent
+        }
+        return Observable.just(result)
+                .subscribeOn(Schedulers.io())
+    }
+
+    override fun isRoot(): Boolean {
+        return curFile.parentFile == null
+    }
+
+    override fun getParentFolderContent(): Observable<List<File>?> {
+        return getFolderContent(curFile.parentFile.absolutePath)
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.ProgressBar
@@ -17,12 +18,12 @@ import java.io.File
 /**
  * A simple [Fragment] subclass.
  */
-class MainFragment : Fragment(), IMainView {
+class MainFragment : Fragment(), IMainView, AdapterView.OnItemClickListener {
 
-    lateinit var presenter: IMainPresenter
-    var progressBar: ProgressBar? = null
-    lateinit var listView: ListView
-    lateinit var adapter: FileAdapter
+    private lateinit var presenter: IMainPresenter
+    private var progressBar: ProgressBar? = null
+    private lateinit var listView: ListView
+    private lateinit var adapter: FileAdapter
 
     /** fragment lifecycle methods */
 
@@ -34,14 +35,23 @@ class MainFragment : Fragment(), IMainView {
         listView = view.findViewById(R.id.file_list) as ListView
         adapter = FileAdapter(activity, R.layout.file_item)
         listView.adapter = adapter
+        listView.onItemClickListener = this
         presenter = MainPresenter(this, FileInteractor(), Environment.getExternalStorageDirectory().absolutePath)
         return view
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.loadFileList()
+        presenter.openHomeFolder()
     }
+
+    /** callback methods */
+
+    override fun onItemClick(p0: AdapterView<*>?, p1: View?, item: Int, p3: Long) {
+        presenter.openFolder(item)
+    }
+
+
 
     /** view interface methods */
 
@@ -49,7 +59,15 @@ class MainFragment : Fragment(), IMainView {
         progressBar?.visibility = if (enable) View.VISIBLE else View.GONE
     }
 
-    override fun setData(list: List<File>) {
-        adapter.setAdapterList(list)
+    override fun setData(list: List<File>?) {
+        if (list != null) {
+            adapter.setAdapterList(list)
+        }
+    }
+
+    /***/
+
+    fun backPressed(): Boolean{
+        return presenter.back()
     }
 }
