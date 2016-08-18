@@ -16,14 +16,13 @@ class FileInteractor: IFileInteractor {
     private lateinit var curFile: File
     private lateinit var curFolderContent: List<File>
 
-    override fun getFolderContent(path: String?): Observable<List<File>?> {
+    override fun getFolderContent(path: String?): List<File>? {
         curFile = File(path)
         curFolderContent = curFile.listFiles().asList()
-        return Observable.just(curFolderContent)
-                         .subscribeOn(Schedulers.io())
+        return curFolderContent
     }
 
-    override fun getFolderContent(item: Int): Observable<List<File>?> {
+    override fun getFolderContent(item: Int): List<File>? {
         var result: List<File>? = null
         val file: File = curFolderContent[item]
         if (file.isDirectory && file.canRead()) {
@@ -31,15 +30,14 @@ class FileInteractor: IFileInteractor {
             curFolderContent = file.listFiles().asList()
             result = curFolderContent
         }
-        return Observable.just(result)
-                .subscribeOn(Schedulers.io())
+        return result
     }
 
     override fun isRoot(): Boolean {
         return curFile.parentFile == null
     }
 
-    override fun getParentFolderContent(): Observable<List<File>?> {
+    override fun getParentFolderContent(): List<File>? {
         return getFolderContent(curFile.parentFile.absolutePath)
     }
 }

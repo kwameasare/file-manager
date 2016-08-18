@@ -20,7 +20,7 @@ class FileAdapter: BaseAdapter {
     private var inflater: LayoutInflater
     private var layoutRes: Int
 
-    public constructor(context: Context, layoutRes: Int): super(){
+    constructor(context: Context, layoutRes: Int): super(){
         this.list = listOf()
         this.inflater = LayoutInflater.from(context)
         this.layoutRes = layoutRes

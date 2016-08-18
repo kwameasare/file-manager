@@ -1,15 +1,16 @@
 package ru.chipenable.filemanager
 
 
-import android.content.ContextWrapper
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.ProgressBar
 import java.io.File
@@ -18,12 +19,13 @@ import java.io.File
 /**
  * A simple [Fragment] subclass.
  */
-class MainFragment : Fragment(), IMainView, AdapterView.OnItemClickListener {
+class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListener {
 
     private lateinit var presenter: IMainPresenter
     private var progressBar: ProgressBar? = null
-    private lateinit var listView: ListView
-    private lateinit var adapter: FileAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: FileRecyclerAdapter
+    private lateinit var toolbar: Toolbar
 
     /** fragment lifecycle methods */
 
@@ -31,11 +33,13 @@ class MainFragment : Fragment(), IMainView, AdapterView.OnItemClickListener {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view: View = inflater!!.inflate(R.layout.fragment_main, container, false)
+        //toolbar = view.findViewById(R.id.toolbar) as Toolbar
         progressBar = view.findViewById(R.id.progress_bar) as ProgressBar
-        listView = view.findViewById(R.id.file_list) as ListView
-        adapter = FileAdapter(activity, R.layout.file_item)
-        listView.adapter = adapter
-        listView.onItemClickListener = this
+        recyclerView = view.findViewById(R.id.file_list) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        adapter = FileRecyclerAdapter()
+        recyclerView.adapter = adapter
+        adapter.setOnItemClickListener(this)
         presenter = MainPresenter(this, FileInteractor(), Environment.getExternalStorageDirectory().absolutePath)
         return view
     }
@@ -47,22 +51,20 @@ class MainFragment : Fragment(), IMainView, AdapterView.OnItemClickListener {
 
     /** callback methods */
 
-    override fun onItemClick(p0: AdapterView<*>?, p1: View?, item: Int, p3: Long) {
-        presenter.openFolder(item)
+    override fun onItemClick(view: View, pos: Int) {
+        presenter.openFolder(pos)
     }
-
-
 
     /** view interface methods */
-
-    override fun showLoading(enable: Boolean) {
-        progressBar?.visibility = if (enable) View.VISIBLE else View.GONE
-    }
 
     override fun setData(list: List<File>?) {
         if (list != null) {
             adapter.setAdapterList(list)
         }
+    }
+
+    override fun openFile(path: String) {
+
     }
 
     /***/
