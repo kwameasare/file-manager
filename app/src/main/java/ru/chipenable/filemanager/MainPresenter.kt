@@ -28,6 +28,11 @@ class MainPresenter : IMainPresenter {
         view.get()?.showPath(fileInteractor.getCurFolder())
     }
 
+    override fun openFolder(path: String) {
+        view.get()?.setData(fileInteractor.getFolderContent(path))
+        view.get()?.showPath(fileInteractor.getCurFolder())
+    }
+
     override fun back(): Boolean {
         if (fileInteractor.isRoot()){
             return false
