@@ -44,4 +44,8 @@ class FileInteractor: IFileInteractor {
     override fun getCurFolder(): String {
         return curFile.absolutePath
     }
+
+    override fun isEmptyFolder(): Boolean {
+        return curFile.isDirectory && curFile.list().size == 0
+    }
 }

@@ -3,12 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/file_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/file_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <TextView
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:text="@string/empty_folder"
+        android:layout_gravity="center"
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"

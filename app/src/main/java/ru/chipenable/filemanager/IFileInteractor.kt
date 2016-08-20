@@ -11,4 +11,5 @@ interface IFileInteractor {
     fun isRoot(): Boolean
     fun getParentFolderContent(): List<File>?
     fun getCurFolder(): String?
+    fun isEmptyFolder(): Boolean
 }

@@ -4,16 +4,13 @@ package ru.chipenable.filemanager
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ProgressBar
+import android.widget.TextView
 import java.io.File
 
 
@@ -27,6 +24,7 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
     private var progressBar: ProgressBar? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FileRecyclerAdapter
+    private lateinit var emptyView: TextView
 
     /** fragment lifecycle methods */
 
@@ -36,6 +34,7 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
         val view: View = inflater!!.inflate(R.layout.fragment_main, container, false)
         progressBar = view.findViewById(R.id.progress_bar) as ProgressBar
         recyclerView = view.findViewById(R.id.file_list) as RecyclerView
+        emptyView = view.findViewById(R.id.empty_view) as TextView
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
         adapter = FileRecyclerAdapter()
@@ -74,6 +73,10 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
 
     override fun showPath(path: String?) {
         (activity as MainActivity).showPath(path)
+    }
+
+    override fun showEmptyView(enable: Boolean) {
+        emptyView.visibility = if (enable) View.VISIBLE else View.GONE
     }
 
     /***/

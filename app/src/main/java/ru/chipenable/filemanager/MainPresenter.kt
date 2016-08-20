@@ -1,5 +1,6 @@
 package ru.chipenable.filemanager
 
+import java.io.File
 import java.lang.ref.WeakReference
 
 /**
@@ -19,18 +20,15 @@ class MainPresenter : IMainPresenter {
     }
 
     override fun openHomeFolder() {
-        view.get()?.setData(fileInteractor.getFolderContent(mainFolder))
-        view.get()?.showPath(fileInteractor.getCurFolder())
+        setData(fileInteractor.getFolderContent(mainFolder))
     }
 
     override fun openFolder(item: Int) {
-        view.get()?.setData(fileInteractor.getFolderContent(item))
-        view.get()?.showPath(fileInteractor.getCurFolder())
+        setData(fileInteractor.getFolderContent(item))
     }
 
     override fun openFolder(path: String) {
-        view.get()?.setData(fileInteractor.getFolderContent(path))
-        view.get()?.showPath(fileInteractor.getCurFolder())
+        setData(fileInteractor.getFolderContent(path))
     }
 
     override fun back(): Boolean {
@@ -38,9 +36,16 @@ class MainPresenter : IMainPresenter {
             return false
         }
         else{
-            view.get()?.setData(fileInteractor.getParentFolderContent())
-            view.get()?.showPath(fileInteractor.getCurFolder())
+            setData(fileInteractor.getParentFolderContent())
             return true
         }
     }
+
+    private fun setData(list: List<File>?){
+        view.get()?.setData(list)
+        view.get()?.showPath(fileInteractor.getCurFolder())
+        view.get()?.showEmptyView(fileInteractor.isEmptyFolder())
+    }
+
+
 }
