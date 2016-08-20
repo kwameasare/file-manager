@@ -40,4 +40,8 @@ class FileInteractor: IFileInteractor {
     override fun getParentFolderContent(): List<File>? {
         return getFolderContent(curFile.parentFile.absolutePath)
     }
+
+    override fun getCurFolder(): String {
+        return curFile.absolutePath
+    }
 }

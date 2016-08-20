@@ -4,12 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="ru.chipenable.filemanager.MainFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/file_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+
+        <include
+            layout="@layout/main_toolbar"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/file_list"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+
 
     <ProgressBar
         android:id="@+id/progress_bar"

@@ -20,10 +20,12 @@ class MainPresenter : IMainPresenter {
 
     override fun openHomeFolder() {
         view.get()?.setData(fileInteractor.getFolderContent(mainFolder))
+        view.get()?.showPath(fileInteractor.getCurFolder())
     }
 
     override fun openFolder(item: Int) {
         view.get()?.setData(fileInteractor.getFolderContent(item))
+        view.get()?.showPath(fileInteractor.getCurFolder())
     }
 
     override fun back(): Boolean {
@@ -32,6 +34,7 @@ class MainPresenter : IMainPresenter {
         }
         else{
             view.get()?.setData(fileInteractor.getParentFolderContent())
+            view.get()?.showPath(fileInteractor.getCurFolder())
             return true
         }
     }

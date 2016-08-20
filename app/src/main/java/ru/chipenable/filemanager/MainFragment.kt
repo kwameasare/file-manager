@@ -4,6 +4,7 @@ package ru.chipenable.filemanager
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.ProgressBar
+import android.widget.TextView
 import java.io.File
 
 
@@ -26,6 +28,7 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FileRecyclerAdapter
     private lateinit var toolbar: Toolbar
+    private lateinit var curFolder: TextView
 
     /** fragment lifecycle methods */
 
@@ -33,9 +36,14 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view: View = inflater!!.inflate(R.layout.fragment_main, container, false)
-        //toolbar = view.findViewById(R.id.toolbar) as Toolbar
+        toolbar = view.findViewById(R.id.toolbar) as Toolbar
         progressBar = view.findViewById(R.id.progress_bar) as ProgressBar
         recyclerView = view.findViewById(R.id.file_list) as RecyclerView
+        curFolder = view.findViewById(R.id.current_path) as TextView
+
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         recyclerView.layoutManager = LinearLayoutManager(activity)
         adapter = FileRecyclerAdapter()
         recyclerView.adapter = adapter
@@ -65,6 +73,10 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
 
     override fun openFile(path: String) {
 
+    }
+
+    override fun showPath(path: String?) {
+        curFolder.text = path
     }
 
     /***/

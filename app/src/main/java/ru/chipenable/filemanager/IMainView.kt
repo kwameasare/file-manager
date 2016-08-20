@@ -8,4 +8,5 @@ import java.io.File
 interface IMainView {
     fun setData(list: List<File>?)
     fun openFile(path: String)
+    fun showPath(path: String?)
 }

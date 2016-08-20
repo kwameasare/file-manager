@@ -10,4 +10,5 @@ interface IFileInteractor {
     fun getFolderContent(item: Int): List<File>?
     fun isRoot(): Boolean
     fun getParentFolderContent(): List<File>?
+    fun getCurFolder(): String?
 }
