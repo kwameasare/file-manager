@@ -54,6 +54,6 @@ class MainActivity : AppCompatActivity(), SelectableTextView.OnClick {
     }
 
     fun showPath(path: String?){
-        pathView.setText(path)
+        pathView.text = path
     }
 }

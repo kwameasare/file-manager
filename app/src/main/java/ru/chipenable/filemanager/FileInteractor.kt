@@ -18,7 +18,7 @@ class FileInteractor: IFileInteractor {
 
     override fun getFolderContent(path: String?): List<File>? {
         curFile = File(path)
-        curFolderContent = curFile.listFiles().asList()
+        curFolderContent = curFile.listFiles().asList().sortedWith(FileComparators.alphabetComparator)
         return curFolderContent
     }
 
@@ -27,7 +27,7 @@ class FileInteractor: IFileInteractor {
         val file: File = curFolderContent[item]
         if (file.isDirectory && file.canRead()) {
             curFile = file
-            curFolderContent = file.listFiles().asList()
+            curFolderContent = file.listFiles().asList().sortedWith(FileComparators.alphabetComparator)
             result = curFolderContent
         }
         return result

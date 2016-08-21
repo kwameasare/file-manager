@@ -37,7 +37,7 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
         emptyView = view.findViewById(R.id.empty_view) as TextView
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = FileRecyclerAdapter()
+        adapter = FileRecyclerAdapter(context)
         recyclerView.adapter = adapter
         adapter.setOnItemClickListener(this)
         presenter = MainPresenter(this, FileInteractor(), Environment.getExternalStorageDirectory().absolutePath)

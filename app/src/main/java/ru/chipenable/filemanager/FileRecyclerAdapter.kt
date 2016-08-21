@@ -1,5 +1,6 @@
 package ru.chipenable.filemanager
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import java.io.File
 
 /**
@@ -18,17 +20,15 @@ class FileRecyclerAdapter : RecyclerView.Adapter<FileRecyclerAdapter.ItemHolder>
     private val TAG = javaClass.name
     private lateinit var list: List<File>
     private var onItemClickListener: OnItemClickListener? = null
+    private lateinit var context: Context
 
     interface OnItemClickListener{
         fun onItemClick(view: View, pos: Int)
     }
 
-    constructor(){
+    constructor(context: Context){
         this.list = listOf()
-    }
-
-    constructor(list: List<File>){
-        this.list = list
+        this.context = context
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener){
@@ -44,11 +44,24 @@ class FileRecyclerAdapter : RecyclerView.Adapter<FileRecyclerAdapter.ItemHolder>
         val imageRes: Int
         if (file.isDirectory){
             imageRes = if (file.canRead()) R.drawable.ic_folder else R.drawable.ic_disable_folder
+            holder.icon.setImageResource(imageRes)
         }
         else {
-            imageRes = R.drawable.ic_file
+            when(file.extension){
+                "jpg" -> {
+                    Glide.with(context)
+                            .load(file.absolutePath)
+                            .override(100, 100)
+                            .fitCenter()
+                            .crossFade()
+                            .into(holder.icon)
+                }
+                else -> {
+                    imageRes = R.drawable.ic_file
+                    holder.icon.setImageResource(imageRes)
+                }
+            }
         }
-        holder.icon.setImageResource(imageRes)
     }
 
     override fun getItemCount(): Int {
