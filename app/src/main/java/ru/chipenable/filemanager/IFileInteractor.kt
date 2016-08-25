@@ -12,4 +12,5 @@ interface IFileInteractor {
     fun getParentFolderContent(): List<File>?
     fun getCurFolder(): String?
     fun isEmptyFolder(): Boolean
+    fun enableHiddenFiles(flag: Boolean)
 }

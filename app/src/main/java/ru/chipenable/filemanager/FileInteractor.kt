@@ -15,11 +15,11 @@ class FileInteractor: IFileInteractor {
     private val TAG: String = javaClass.name
     private lateinit var curFile: File
     private lateinit var curFolderContent: List<File>
+    private var flagHidden: Boolean = false
 
     override fun getFolderContent(path: String?): List<File>? {
         curFile = File(path)
-        curFolderContent = curFile.listFiles().asList().sortedWith(FileComparators.alphabetComparator)
-        return curFolderContent
+        return getCurFolderContent(flagHidden)
     }
 
     override fun getFolderContent(item: Int): List<File>? {
@@ -27,10 +27,16 @@ class FileInteractor: IFileInteractor {
         val file: File = curFolderContent[item]
         if (file.isDirectory && file.canRead()) {
             curFile = file
-            curFolderContent = file.listFiles().asList().sortedWith(FileComparators.alphabetComparator)
-            result = curFolderContent
+            result = getCurFolderContent(flagHidden)
         }
         return result
+    }
+
+    private fun getCurFolderContent(flagHidden: Boolean): List<File>{
+        curFolderContent = curFile.listFiles().asList()
+                .sortedWith(FileComparators.alphabetComparator)
+                .filter { f:File -> if (flagHidden) {true} else {!f.isHidden} }
+        return curFolderContent
     }
 
     override fun isRoot(): Boolean {
@@ -46,6 +52,10 @@ class FileInteractor: IFileInteractor {
     }
 
     override fun isEmptyFolder(): Boolean {
-        return curFile.isDirectory && curFile.list().size == 0
+        return curFile.isDirectory && curFolderContent.size == 0
+    }
+
+    override fun enableHiddenFiles(flag: Boolean) {
+        flagHidden = flag
     }
 }

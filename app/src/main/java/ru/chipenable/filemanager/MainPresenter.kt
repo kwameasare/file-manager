@@ -11,16 +11,17 @@ class MainPresenter : IMainPresenter {
     private val TAG: String = javaClass.name
     private var view: WeakReference<IMainView>
     private var fileInteractor: IFileInteractor
-    private var mainFolder: String?
+    private var mainFolder: String
 
-    constructor(view: IMainView, fileInteractor: FileInteractor, mainFolder: String?) {
+    constructor(view: IMainView, fileInteractor: FileInteractor, mainFolder: String) {
         this.view = WeakReference(view)
         this.fileInteractor = fileInteractor
         this.mainFolder = mainFolder
+        this.fileInteractor.enableHiddenFiles(false)
     }
 
     override fun openHomeFolder() {
-        setData(fileInteractor.getFolderContent(mainFolder))
+        openFolder(mainFolder)
     }
 
     override fun openFolder(item: Int) {
