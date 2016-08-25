@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by Pashgan on 18.08.2016.
@@ -21,6 +23,7 @@ class FileRecyclerAdapter : RecyclerView.Adapter<FileRecyclerAdapter.ItemHolder>
     private lateinit var list: List<File>
     private var onItemClickListener: OnItemClickListener? = null
     private lateinit var context: Context
+    private var dateFormat: SimpleDateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
 
     interface OnItemClickListener{
         fun onItemClick(view: View, pos: Int)
@@ -40,6 +43,7 @@ class FileRecyclerAdapter : RecyclerView.Adapter<FileRecyclerAdapter.ItemHolder>
         val file = list[position]
         holder.pos = position
         holder.name.text = file.name
+        holder.date.text = dateFormat.format(file.lastModified())
 
         val imageRes: Int
         if (file.isDirectory){
@@ -82,11 +86,13 @@ class FileRecyclerAdapter : RecyclerView.Adapter<FileRecyclerAdapter.ItemHolder>
     inner class ItemHolder: RecyclerView.ViewHolder, View.OnClickListener {
         var name: TextView
         var icon: ImageView
+        var date: TextView
         var pos: Int
 
         constructor(itemView: View): super(itemView){
             name = itemView.findViewById(R.id.file_name) as TextView
             icon = itemView.findViewById(R.id.file_icon) as ImageView
+            date = itemView.findViewById(R.id.file_date) as TextView
             pos = 0
             itemView.setOnClickListener(this)
         }
