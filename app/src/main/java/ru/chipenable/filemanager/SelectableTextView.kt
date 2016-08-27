@@ -69,8 +69,7 @@ class SelectableTextView : TextView {
             return null
         }
 
-        val ch = text[start]
-        if (ch.compareTo('/') == 0) {
+        if (start == 0) {
             return Position(0, 1)
         }
 
