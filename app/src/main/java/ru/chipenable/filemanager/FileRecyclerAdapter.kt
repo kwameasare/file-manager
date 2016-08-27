@@ -52,7 +52,7 @@ class FileRecyclerAdapter : RecyclerView.Adapter<FileRecyclerAdapter.ItemHolder>
         }
         else {
             when(file.extension){
-                "jpg" -> {
+                "jpg", "jpeg", "png", "bmp" -> {
                     Glide.with(context)
                             .load(file.absolutePath)
                             .override(100, 100)

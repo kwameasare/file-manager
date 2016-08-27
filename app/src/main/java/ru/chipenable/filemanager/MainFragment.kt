@@ -6,6 +6,7 @@ import android.os.Environment
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +24,10 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
     private lateinit var presenter: IMainPresenter
     private var progressBar: ProgressBar? = null
     private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var adapter: FileRecyclerAdapter
     private lateinit var emptyView: TextView
+    private var curPos: Int = 0
 
     /** fragment lifecycle methods */
 
@@ -36,7 +39,8 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
         recyclerView = view.findViewById(R.id.file_list) as RecyclerView
         emptyView = view.findViewById(R.id.empty_view) as TextView
 
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        layoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = layoutManager
         adapter = FileRecyclerAdapter(context)
         recyclerView.adapter = adapter
         adapter.setOnItemClickListener(this)
@@ -52,7 +56,8 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
     /** callback methods */
 
     override fun onItemClick(view: View, pos: Int) {
-        presenter.openFolder(pos)
+        var visiblePos = layoutManager.findFirstVisibleItemPosition()
+        presenter.openFolder(pos, visiblePos)
     }
 
     fun onPathClick(path: String) {
@@ -61,9 +66,10 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
 
     /** view interface methods */
 
-    override fun setData(list: List<File>?) {
+    override fun setData(list: List<File>?, visiblePos: Int) {
         if (list != null) {
             adapter.setAdapterList(list)
+            layoutManager.scrollToPositionWithOffset(visiblePos, 0)
         }
     }
 

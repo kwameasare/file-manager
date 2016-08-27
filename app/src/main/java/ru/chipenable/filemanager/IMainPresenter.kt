@@ -5,7 +5,7 @@ package ru.chipenable.filemanager
  */
 interface IMainPresenter {
     fun openHomeFolder()
-    fun openFolder(item: Int)
+    fun openFolder(item: Int, visiblePos: Int)
     fun openFolder(path: String)
     fun back(): Boolean
 }
