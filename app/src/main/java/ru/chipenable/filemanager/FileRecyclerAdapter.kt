@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.file_item.view.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -90,9 +91,9 @@ class FileRecyclerAdapter : RecyclerView.Adapter<FileRecyclerAdapter.ItemHolder>
         var pos: Int
 
         constructor(itemView: View): super(itemView){
-            name = itemView.findViewById(R.id.file_name) as TextView
-            icon = itemView.findViewById(R.id.file_icon) as ImageView
-            date = itemView.findViewById(R.id.file_date) as TextView
+            name = itemView.file_name
+            icon = itemView.file_icon
+            date = itemView.file_date
             pos = 0
             itemView.setOnClickListener(this)
         }

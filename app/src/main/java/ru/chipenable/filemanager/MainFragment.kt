@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_main.view.*
 import java.io.File
 
 
@@ -23,11 +24,9 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
     private val TAG: String = javaClass.name
     private lateinit var presenter: IMainPresenter
     private var progressBar: ProgressBar? = null
-    private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var adapter: FileRecyclerAdapter
     private lateinit var emptyView: TextView
-    private var curPos: Int = 0
 
     /** fragment lifecycle methods */
 
@@ -35,15 +34,14 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view: View = inflater!!.inflate(R.layout.fragment_main, container, false)
-        progressBar = view.findViewById(R.id.progress_bar) as ProgressBar
-        recyclerView = view.findViewById(R.id.file_list) as RecyclerView
-        emptyView = view.findViewById(R.id.empty_view) as TextView
+        progressBar = view.progress_bar
+        emptyView = view.empty_view
 
         layoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = layoutManager
+        view.recyclerView.layoutManager = layoutManager
         adapter = FileRecyclerAdapter(context)
-        recyclerView.adapter = adapter
         adapter.setOnItemClickListener(this)
+        view.recyclerView.adapter = adapter
         presenter = MainPresenter(this, FileInteractor(), Environment.getExternalStorageDirectory().absolutePath)
         return view
     }
@@ -56,7 +54,7 @@ class MainFragment : Fragment(), IMainView, FileRecyclerAdapter.OnItemClickListe
     /** callback methods */
 
     override fun onItemClick(view: View, pos: Int) {
-        var visiblePos = layoutManager.findFirstVisibleItemPosition()
+        val visiblePos = layoutManager.findFirstVisibleItemPosition()
         presenter.openFolder(pos, visiblePos)
     }
 
