@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home_folder"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/home_folder"/>
+        <item
+            android:id="@+id/file_system"
+            android:icon="@android:drawable/ic_menu_camera"
+            android:title="@string/file_system"/>
+        <item
+            android:id="@+id/google_disk"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/google_disk"/>
+
+    </group>
+</menu>

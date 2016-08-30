@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.ArrayAdapter
@@ -31,10 +32,6 @@ class MainActivity : AppCompatActivity(), SelectableTextView.OnClick {
         pathView = this.current_path
         pathView.setOnWordClickListener(this)
         drawerLayout = this.drawer_layout
-        drawerList = this.drawer_list
-
-        drawerList.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                resources.getStringArray(R.array.disks))
 
         val fm: FragmentManager = supportFragmentManager
         if (fm.findFragmentById(R.id.fragment_container) == null) {

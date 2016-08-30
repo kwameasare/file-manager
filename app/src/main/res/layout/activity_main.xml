@@ -24,16 +24,13 @@
         </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>
 
-        <ListView
-            android:paddingTop="100dp"
-            android:id="@+id/drawer_list"
-            android:layout_width="240dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:choiceMode="singleChoice"
-            android:background="@color/white"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"/>
-
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/drawer_menu"/>
 
 </android.support.v4.widget.DrawerLayout>

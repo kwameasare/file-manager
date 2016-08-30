@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#ffffffff</color>
+    <color name="drawer_header">#ff6F81d5</color>
 </resources>
