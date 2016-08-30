@@ -4,14 +4,21 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_toolbar.*
 
 
 class MainActivity : AppCompatActivity(), SelectableTextView.OnClick {
 
     private var f: MainFragment? = null
     private lateinit var pathView: SelectableTextView
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var drawerList: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +28,13 @@ class MainActivity : AppCompatActivity(), SelectableTextView.OnClick {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        pathView = findViewById(R.id.current_path) as SelectableTextView
+        pathView = this.current_path
         pathView.setOnWordClickListener(this)
+        drawerLayout = this.drawer_layout
+        drawerList = this.drawer_list
+
+        drawerList.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                resources.getStringArray(R.array.disks))
 
         val fm: FragmentManager = supportFragmentManager
         if (fm.findFragmentById(R.id.fragment_container) == null) {
